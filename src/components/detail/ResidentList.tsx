@@ -10,7 +10,7 @@ const ResidentList = ({ residents }: Props) => {
   return (
     <DetailCard title="Residents">
       <h4 className="font-semibold mb-5">Total Resident: {residents?.length}</h4>
-      <table>
+      <table className="w-full">
         <thead>
           <tr>
             <th className="text-left text-sm">Name</th>

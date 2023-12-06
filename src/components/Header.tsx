@@ -16,10 +16,12 @@ const Header = (props: Props) => {
           </a>
         </Link>
         <nav className="flex items-center">
-          <button className="group relative inline-flex items-center gap-2 text-slate-50 hover:text-slate-200">
-            <FaHeart className="text-rose-500 group-hover:text-rose-700" />
-            Wishlist
-          </button>
+          <Link href={'/wishlist'} passHref>
+            <button className="group relative inline-flex items-center gap-2 text-slate-50 hover:text-slate-200">
+              <FaHeart className="text-rose-500 group-hover:text-rose-700" />
+              Wishlist
+            </button>
+          </Link>
         </nav>
       </div>
     </header>

@@ -1,3 +1,4 @@
+import { WishListType } from '@pages/wishlist';
 import Header from 'components/Header';
 import DetailList from 'components/detail/DetailList';
 import FilmList from 'components/detail/FilmList';
@@ -30,34 +31,31 @@ type Props = {
 
 const DetailPage = ({ detail, films, residents, planetId }: Props) => {
   const [number] = useState(() => Math.floor(Math.random() * 7) + 1);
-  const [isWishList, setIsWishList] = useState<boolean>(false);
+  const [isWishList, setIsWishList] = useState<boolean>(() => {
+    const currentWishList: WishListType[] = JSON.parse(
+      localStorage.getItem('akasia') ?? '[]'
+    ) as WishListType[];
+    if (currentWishList.find((el) => el.planetId === planetId)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   const handleWishList = () => {
-    const currentWishList: string[] = JSON.parse(
+    const currentWishList: WishListType[] = JSON.parse(
       localStorage.getItem('akasia') ?? '[]'
-    ) as string[];
-    let newData: string[] = [];
-    if (currentWishList.includes(planetId)) {
-      newData = currentWishList.filter((currentData) => currentData !== planetId);
+    ) as WishListType[];
+    let newData: WishListType[] = [];
+    if (currentWishList.find((el) => el.planetId === planetId)) {
+      newData = currentWishList.filter((currentData) => currentData.planetId !== planetId);
       setIsWishList(false);
     } else {
-      newData = [...currentWishList, planetId];
+      newData = [...currentWishList, { ...detail, planetId }];
       setIsWishList(true);
     }
     localStorage.setItem('akasia', JSON.stringify(newData));
   };
-
-  useEffect(() => {
-    const currentWishList: string[] = JSON.parse(
-      localStorage.getItem('akasia') ?? '[]'
-    ) as string[];
-    if (currentWishList.includes(planetId)) {
-      setIsWishList(true);
-    } else {
-      setIsWishList(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="flex flex-col bg-[url('/assets/bg.jpg')] bg-center bg-cover bg-no-repeat bg-fixed">
