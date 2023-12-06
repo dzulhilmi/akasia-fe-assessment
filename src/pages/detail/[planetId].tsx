@@ -97,24 +97,30 @@ const DetailPage = ({ detail, films, residents, planetId }: Props) => {
 
 export const getServerSideProps = async (context: { query: { planetId: string } }) => {
   const { planetId } = context.query;
-  const res = await fetch(`https://swapi.dev/api/planets/${planetId}/`);
-  const detail = await res.json();
 
-  const residents: any[] = await Promise.all(
-    detail.residents.map(async (resident: string) => {
-      const residentRes = await fetch(resident);
-      const data = await residentRes.json();
-      return data;
-    })
-  );
-  const films: any[] = await Promise.all(
-    detail.films.map(async (film: string) => {
-      const filmRes = await fetch(film);
-      const data = await filmRes.json();
-      return data;
-    })
-  );
-  return { props: { detail, residents, films, planetId } };
+  try {
+    const res = await fetch(`https://swapi.dev/api/planets/${planetId}/`);
+    const detail = await res.json();
+
+    const residents: any[] = await Promise.all(
+      detail.residents.map(async (resident: string) => {
+        const residentRes = await fetch(resident);
+        const data = await residentRes.json();
+        return data;
+      })
+    );
+    const films: any[] = await Promise.all(
+      detail.films.map(async (film: string) => {
+        const filmRes = await fetch(film);
+        const data = await filmRes.json();
+        return data;
+      })
+    );
+    return { props: { detail, residents, films, planetId } };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 export default DetailPage;
