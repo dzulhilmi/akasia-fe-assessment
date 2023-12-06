@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PlanetCard, { PlanetType } from './PlanetCard';
 import Loading from 'components/Loading';
+import Link from 'next/link';
 
 const HomePage = () => {
   const [items, setItems] = useState<PlanetType[]>([]);
@@ -56,7 +57,11 @@ const HomePage = () => {
         <h2 className="text-slate-200 font-bold text-2xl my-5">Planets</h2>
         <div className="flex flex-row flex-wrap gap-10 justify-center items-center">
           {items.map((item, i) => (
-            <PlanetCard key={i} {...item} />
+            <Link key={i} href={`/detail/${item.url.slice(30, 31)}`} passHref>
+              <a>
+                <PlanetCard key={i} {...item} />
+              </a>
+            </Link>
           ))}
         </div>
       </div>

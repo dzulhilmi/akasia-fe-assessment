@@ -4,11 +4,7 @@ import Head from 'next/head';
 import Header from 'components/Header';
 import HomePage from 'components/home/HomePage';
 
-export type HomeProps = {
-  planets: any[];
-};
-
-const Home: NextPage<HomeProps> = ({ planets }) => {
+const Home: NextPage = () => {
   return (
     <div className="flex flex-col bg-[url('/assets/bg.jpg')] bg-center bg-cover bg-no-repeat bg-fixed">
       <Head>
