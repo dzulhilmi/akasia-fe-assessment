@@ -11,7 +11,7 @@ export type WishListType = PlanetType & {
 type Props = {};
 
 const WishListPage = (props: Props) => {
-  const rawData = JSON.parse(localStorage?.getItem('akasia') ?? '[]') as WishListType[];
+  const [rawData, setRawData] = useState<WishListType[]>([]);
   const [data, setData] = useState<WishListType[]>(rawData);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -23,11 +23,16 @@ const WishListPage = (props: Props) => {
 
     setData(sliceItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, rawData, itemsPerPage]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  useEffect(() => {
+    const akasiaData = JSON.parse(localStorage?.getItem('akasia') ?? '[]') as WishListType[];
+    setRawData(akasiaData);
+  }, []);
 
   return (
     <div className="flex flex-col bg-[url('/assets/bg.jpg')] bg-center bg-cover bg-no-repeat bg-fixed">
